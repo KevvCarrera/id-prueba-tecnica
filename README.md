@@ -100,6 +100,38 @@ php artisan migrate
 php artisan db:seed
 ```
 ---
+## Publicación de Archivos de Configuración
+
+Para configurar correctamente los paquetes utilizados, es necesario ejecutar los siguientes comandos:
+
+- **Laravel Sanctum:**
+
+  ```bash
+  php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+  php artisan migrate
+  ```
+
+- **Spatie Laravel-Permission:**
+
+  ```bash
+  php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+  php artisan migrate
+  ```
+
+- **Swagger (L5-Swagger):**
+
+  ```bash
+  php artisan vendor:publish --providA"horaL5Swagger\L5SwaggerServiceProvider" --force
+  ```
+
+- **Laravel Excel:**
+
+  ```bash
+  php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+  ```
+
+---
+
 ## 🔀 Rutas de la API
 
 ### **Autenticación**:
@@ -161,14 +193,6 @@ Ejecutar pruebas unitarias con:
 php artisan test
 ```
 
----
-## 🚀 Despliegue
-Para subir la aplicación a producción:
-```bash
-php artisan config:cache
-php artisan route:cache
-php artisan migrate --force
-```
 ---
 ## 🤝 Contribuciones
 Si deseas contribuir, por favor abre un **issue** o envía un **pull request** en GitHub.
