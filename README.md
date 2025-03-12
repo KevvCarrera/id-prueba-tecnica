@@ -205,3 +205,7 @@ Si deseas contribuir, por favor abre un **issue** o envía un **pull request** e
 ---
 # 🛠️ DIagrama Entidad - Relación
 ![Image](https://github.com/user-attachments/assets/11b4cd30-1622-45fa-b0ea-fc86bafde068)
+
+
+# Explicación en video
+https://www.youtube.com/watch?v=f0OeBYV8jSw 
