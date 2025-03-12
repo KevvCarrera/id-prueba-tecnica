@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\SaleCreated;
+use App\Listeners\UpdateStockAndTotal;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            SaleCreated::class,
+            UpdateStockAndTotal::class
+        );
     }
 }
