@@ -3,9 +3,10 @@
 namespace App\Providers;
 
 use App\Events\SaleCreated;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Event;
 use App\Listeners\UpdateStockAndTotal;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
             SaleCreated::class,
             UpdateStockAndTotal::class
         );
+
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('admin') ? true : null;
+        });
     }
 }

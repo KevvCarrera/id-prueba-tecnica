@@ -18,7 +18,7 @@ class ProductController extends Controller
         $products = Product::all();
 
         $data = $products->isEmpty()
-            ? ['message' => 'No se encontraron estudiantes']
+            ? ['message' => 'No se encontraron productos']
             : $products;
 
         return response()->json($data, 200);
