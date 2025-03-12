@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\SaleController;
-use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\SaleController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\SaleReportController;
 
 
 Route::controller(RegisterController::class)->group(function(){
@@ -27,5 +28,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-    Route::get('/sales-report', [SaleReportController::class, 'generateReport']);
+    Route::get('/sales/report', [SaleReportController::class, 'generateReport']);
 });

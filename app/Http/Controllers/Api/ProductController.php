@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
-use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $productRepository;
+
+    public function __construct(ProductRepositoryInterface $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     public function index()
     {
-        $products = Product::all();
+        $products = $this->productRepository->getAll();
 
         $data = $products->isEmpty()
             ? ['message' => 'No se encontraron productos']
@@ -24,13 +28,10 @@ class ProductController extends Controller
         return response()->json($data, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(ProductRequest $request)
     {
         try {
-            $product = Product::create($request->validated());
+            $product = $this->productRepository->create($request->validated());
 
             return response()->json([
                 'message' => 'Producto creado exitosamente',
@@ -44,12 +45,9 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = $this->productRepository->findById($id);
 
         if (!$product) {
             return response()->json([
@@ -60,14 +58,18 @@ class ProductController extends Controller
         return response()->json($product, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ProductRequest $request, string $id)
+    public function update(ProductRequest $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);
-            $product->update($request->validated());
+            $updated = $this->productRepository->update($id, $request->validated());
+
+            if (!$updated) {
+                return response()->json([
+                    'message' => 'Error al actualizar el producto'
+                ], 500);
+            }
+
+            $product = $this->productRepository->findById($id);
 
             return response()->json([
                 'message' => 'Producto actualizado con éxito',
@@ -85,14 +87,16 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         try {
-            $product = Product::findOrFail($id);
-            $product->delete();
+            $deleted = $this->productRepository->delete($id);
+
+            if (!$deleted) {
+                return response()->json([
+                    'message' => 'Error al eliminar el producto'
+                ], 500);
+            }
 
             return response()->json([
                 'message' => 'Producto eliminado'
