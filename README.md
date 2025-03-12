@@ -1,66 +1,180 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Prueba Técnica ID
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es una aplicación desarrollada con **Laravel 12** que gestiona productos y ventas, implementando:
 
-## About Laravel
+- **Autenticación con tokens** mediante Laravel Sanctum.
+- **Control de roles y permisos** con Spatie Laravel-Permission.
+- **Exportación de datos** a **Excel y JSON**.
+- **Validaciones** a través de **Form Requests**.
+- **Patrón de diseño Repository** con servicios.
+- **Documentación de la API** utilizando Swagger.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
+## 📑 Tabla de Contenidos
+- [Características Principales](#caracteristicas-principales)
+- [Tecnologías Utilizadas](#tecnologias-utilizadas)
+- [Requisitos Previos](#requisitos-previos)
+- [Instalación](#instalacion)
+- [Configuración](#configuracion)
+- [Migraciones y Seeders](#migraciones-y-seeders)
+- [Rutas de la API](#rutas-de-la-api)
+- [Autenticación y Autorización](#autenticacion-y-autorizacion)
+- [Exportación de Datos](#exportacion-de-datos)
+- [Validaciones](#validaciones)
+- [Patrón Repository y Servicios](#patron-repository-y-servicios)
+- [Documentación con Swagger](#documentacion-con-swagger)
+- [Pruebas](#pruebas)
+- [Despliegue](#despliegue)
+- [Contribuciones](#contribuciones)
+- [Contacto](#contacto)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
+## 🚀 Características Principales
+- **Gestión de Productos y Ventas**: Creación, actualización, visualización y eliminación de productos y ventas.
+- **Autenticación con Laravel Sanctum**: Basada en tokens para proteger las rutas de la API.
+- **Roles y Permisos con Spatie**: Control de acceso mediante roles y permisos.
+- **Exportación de Datos**: Exportación de datos en **Excel y JSON**.
+- **Validaciones con Form Requests**: Garantiza la integridad de los datos.
+- **Patrón Repository y Servicios**: Separación de lógica de acceso a datos y negocio.
+- **Documentación con Swagger**: API documentada para facilitar su uso.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
+## 🛠 Tecnologías Utilizadas
+- **Lenguaje**: PHP 8.3
+- **Framework**: Laravel 12
+- **Base de Datos**: MySQL
+- **Autenticación**: Laravel Sanctum
+- **Control de Roles y Permisos**: Spatie Laravel-Permission
+- **Exportación de Datos**: Laravel Excel
+- **Documentación de la API**: Swagger con DarkaOnLine/L5-Swagger
 
-## Learning Laravel
+---
+## 📋 Requisitos Previos
+Antes de comenzar, asegúrate de tener instalados:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP **8.3** o superior
+- **Composer**
+- **MySQL**
+- **Servidor web** (Apache, Nginx, etc.)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
+## 🔧 Instalación
+### 1️⃣ Clonar el repositorio:
+```bash
+git clone https://github.com/tu-usuario/prueba-tecnica-id.git
+cd prueba-tecnica-id
+```
+### 2️⃣ Instalar las dependencias:
+```bash
+composer install
+```
+---
+## ⚙️ Configuración
+### 1️⃣ Copiar el archivo de configuración de ejemplo:
+```bash
+cp .env.example .env
+```
+### 2️⃣ Configurar variables en **.env**:
+```ini
+APP_NAME=PruebaTecnicaID
+APP_URL=http://localhost
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_bd
+DB_USERNAME=root
+DB_PASSWORD=
+```
+### 3️⃣ Generar la clave de la aplicación:
+```bash
+php artisan key:generate
+```
+---
+## 🏗️ Migraciones y Seeders
+### 1️⃣ Ejecutar las migraciones:
+```bash
+php artisan migrate
+```
+### 2️⃣ Ejecutar los seeders para roles y permisos:
+```bash
+php artisan db:seed
+```
+---
+## 🔀 Rutas de la API
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### **Autenticación**:
+```http
+POST /register   → Registro de usuarios
+POST /login      → Inicio de sesión y obtención de token
+```
+### **Productos (Autenticación + Permisos)**:
+```http
+GET /products                  → Lista todos los productos (list-product)
+POST /products                 → Crea un producto (create-product)
+PUT /products/{product}        → Actualiza un producto (update-product)
+DELETE /products/{product}     → Elimina un producto (delete-product)
+```
+### **Ventas (Autenticación + Permisos)**:
+```http
+GET /sales                   → Lista todas las ventas (list-sales)
+POST /sales                  → Crea una nueva venta (create-sales)
+PUT /sales/{sale}            → Actualiza una venta (update-sales)
+DELETE /sales/{sale}         → Elimina una venta (delete-sales)
+```
+### **Reportes de Ventas (Solo Admin)**:
+```http
+GET /sales/report  → Genera un reporte de ventas
+```
+---
+## 🔑 Autenticación y Autorización
+- **Laravel Sanctum** maneja la autenticación basada en tokens.
+- **Spatie Laravel-Permission** administra los roles y permisos.
 
-## Laravel Sponsors
+---
+## 📤 Exportación de Datos
+Permite exportar productos y ventas en **Excel y JSON** con Laravel Excel.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
+## ✅ Validaciones
+- Se realizan mediante **Form Requests** para garantizar la integridad de los datos.
 
-### Premium Partners
+---
+## 🏗️ Patrón Repository y Servicios
+- **Repository Pattern** para desacoplar la lógica de negocio y acceso a datos.
+- **Servicios** que encapsulan la lógica de negocio.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
+## 📄 Documentación con Swagger
+Swagger proporciona una documentación interactiva para probar la API.
+Para generar la documentación:
+```bash
+php artisan l5-swagger:generate
+```
+Acceder desde:
+```
+http://localhost/api/documentation
+```
+---
+## 🧪 Pruebas
+Ejecutar pruebas unitarias con:
+```bash
+php artisan test
+```
 
-## Contributing
+---
+## 🚀 Despliegue
+Para subir la aplicación a producción:
+```bash
+php artisan config:cache
+php artisan route:cache
+php artisan migrate --force
+```
+---
+## 🤝 Contribuciones
+Si deseas contribuir, por favor abre un **issue** o envía un **pull request** en GitHub.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
+## 📞 Contacto
+📧 **Correo**: k.carrera.1512@gmail.com  
+📱 **Teléfono**: +51 921642399
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

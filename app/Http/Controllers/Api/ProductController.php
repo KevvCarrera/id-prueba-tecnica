@@ -7,6 +7,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Repositories\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use OpenApi\Annotations as OA;
+
+/** *
+ * @OA\Tag(
+ *     name="Productos",
+ *     description="Operaciones relacionadas con productos"
+ * )
+ *
+ * @OA\Server(
+ *     url="/api",
+ *     description="Servidor API"
+ * )
+ */
 
 class ProductController extends Controller
 {
@@ -16,6 +29,18 @@ class ProductController extends Controller
     {
         $this->productRepository = $productRepository;
     }
+
+    /**
+     * @OA\Get(
+     *     path="/products",
+     *     tags={"Productos"},
+     *     summary="Obtener lista de productos",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de productos obtenida exitosamente",
+     *     )
+     * )
+     */
 
     public function index()
     {
@@ -27,6 +52,25 @@ class ProductController extends Controller
 
         return response()->json($data, 200);
     }
+
+        /**
+     * @OA\Post(
+     *     path="/products",
+     *     tags={"Productos"},
+     *     summary="Crear un nuevo producto",
+     *     @OA\RequestBody(
+     *         required=true,
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Producto creado exitosamente",
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al crear el producto"
+     *     )
+     * )
+     */
 
     public function store(ProductRequest $request)
     {
@@ -45,6 +89,29 @@ class ProductController extends Controller
         }
     }
 
+     /**
+     * @OA\Get(
+     *     path="/products/{id}",
+     *     tags={"Productos"},
+     *     summary="Obtener detalles de un producto",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del producto",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles del producto obtenidos exitosamente",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado"
+     *     )
+     * )
+     */
+
     public function show($id)
     {
         $product = $this->productRepository->findById($id);
@@ -58,6 +125,35 @@ class ProductController extends Controller
         return response()->json($product, 200);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/products/{id}",
+     *     tags={"Productos"},
+     *     summary="Actualizar un producto existente",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del producto",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto actualizado con éxito",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al actualizar el producto"
+     *     )
+     * )
+     */
     public function update(ProductRequest $request, $id)
     {
         try {
@@ -87,6 +183,32 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/products/{id}",
+     *     tags={"Productos"},
+     *     summary="Eliminar un producto",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del producto",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto eliminado exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al eliminar el producto"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         try {

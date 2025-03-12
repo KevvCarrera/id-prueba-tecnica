@@ -4,7 +4,22 @@ namespace App\Http\Controllers\Api;
   
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
-  
+
+/**
+ * @OA\Info(
+ *      version="1.0.0",
+ *      title="Documentación de la API",
+ *      description="Descripción de la API",
+ *      @OA\Contact(
+ *          email="[email protected]"
+ *      ),
+ *      @OA\License(
+ *          name="Apache 2.0",
+ *          url="http://www.apache.org/licenses/LICENSE-2.0.html"
+ *      )
+ * )
+ */
+
 class BaseController extends Controller
 {
     /**
